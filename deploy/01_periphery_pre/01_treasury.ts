@@ -64,15 +64,15 @@ const func: DeployFunction = async function ({
 
     await save(TREASURY_PROXY_ID, {
       address: treasuryAddress,
-      abi: InitializableAdminUpgradeabilityProxy__factory.abi,
+      abi: InitializableAdminUpgradeabilityProxy__factory.abi as any,
     });
     await save(TREASURY_CONTROLLER_ID, {
       address: controller,
-      abi: AaveEcosystemReserveController__factory.abi,
+      abi: AaveEcosystemReserveController__factory.abi as any,
     });
     await save(TREASURY_IMPL_ID, {
       address: impl,
-      abi: AaveEcosystemReserveV2__factory.abi,
+      abi: AaveEcosystemReserveV2__factory.abi as any,
     });
 
     return true;

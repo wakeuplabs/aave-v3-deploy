@@ -21,9 +21,15 @@ const func: DeployFunction = async function ({
   deployments,
   ...hre
 }: HardhatRuntimeEnvironment) {
+  console.log("Chris: init pool deployment")
+
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
   const poolConfig = await loadPoolConfig(MARKET_NAME as ConfigNames);
+
+  console.log("Chris: load pool config", poolConfig)
+
+
   const network = (
     process.env.FORK ? process.env.FORK : hre.network.name
   ) as eNetwork;
@@ -32,6 +38,8 @@ const func: DeployFunction = async function ({
     POOL_ADDRESSES_PROVIDER_ID
   );
 
+  console.log("Chris: get provider address", POOL_ADDRESSES_PROVIDER_ID, addressesProviderAddress)
+
   if (isL2PoolSupported(poolConfig)) {
     console.log(
       `[INFO] Skipped common Pool due current network '${network}' is not supported`
@@ -39,6 +47,9 @@ const func: DeployFunction = async function ({
     return;
   }
   const commonLibraries = await getPoolLibraries();
+
+  console.log("Chris: get pool libraries", commonLibraries)
+
 
   // Deploy common Pool contract
   const poolArtifact = await deploy(POOL_IMPL_ID, {
@@ -51,9 +62,23 @@ const func: DeployFunction = async function ({
     ...COMMON_DEPLOY_PARAMS,
   });
 
+  console.log("Chris: deploy pool artifact", poolArtifact)
+
+
   // Initialize implementation
   const pool = await getPool(poolArtifact.address);
-  await waitForTx(await pool.initialize(addressesProviderAddress));
+
+  console.log("Chris: get pool", poolArtifact.address, pool)
+
+  // const poolInitialized = await pool.initialize(addressesProviderAddress)
+
+  // console.log("Chris: pool initialized", poolInitialized)
+
+  // await waitForTx(poolInitialized);
+
+  // console.log("Chris: wait for tx")
+
+
   console.log("Initialized Pool Implementation");
 };
 
