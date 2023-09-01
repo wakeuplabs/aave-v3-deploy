@@ -70,13 +70,13 @@ const func: DeployFunction = async function ({
 
   console.log("Chris: get pool", poolArtifact.address, pool)
 
-  // const poolInitialized = await pool.initialize(addressesProviderAddress)
+  const poolInitialized = await pool.initialize(addressesProviderAddress)
 
-  // console.log("Chris: pool initialized", poolInitialized)
+  console.log("Chris: pool initialized", poolInitialized)
 
-  // await waitForTx(poolInitialized);
+  await waitForTx(poolInitialized);
 
-  // console.log("Chris: wait for tx")
+  console.log("Chris: wait for tx")
 
 
   console.log("Initialized Pool Implementation");
